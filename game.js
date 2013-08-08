@@ -28,7 +28,6 @@
                         this.elements.push(new Game.Enemy(this,x,y,radius));
                     }
                     this.elements.push(new Game.Player(this));
-
                 }
             }
 
@@ -43,7 +42,7 @@
                 }
             }
 
-            for (var i =0; i<this.elements.length; i++) {
+            for (var i = 0; i<this.elements.length; i++) {
                 this.elements[i].update();
             }
         },
@@ -81,31 +80,18 @@
         randomInt: function(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
-        init: function() {
-            this.input.listener();
-        },
-
         //Collision functions based on Coquette by Mary Rose Cook
         collision: function(obj1, obj2) {
-           return this.distance(this.center(obj1), this.center(obj2)) < obj1.radius + obj2.radius;
-//            var centerX = obj1.x + obj1.radius;
-//            var centerY = obj1.y + obj1.radius;
-//            var center2X = obj2.x + obj2.radius;
-//            var center2Y = obj2.y + obj2.radius;
-//            var distance = Math.sqrt((centerX - center2X) * (centerX - center2X)) +
-//                ((centerY - center2Y) * (centerY - center2Y));
-//            if (distance < obj1.radius + obj2.radius) {
-//                return true;
-//            }
+           return this.distance(obj1, obj2) < obj1.radius + obj2.radius;
         },
         center: function(obj) {
-            return {x: obj.x + obj.radius, y: obj.y + obj.radius }
+            return {x: obj.x + obj.radius, y: obj.y + obj.radius };
         },
         distance: function(point1, point2) {
             var x = point1.x - point2.x;
             var y = point1.y - point2.y;
             return Math.sqrt((x * x) + (y * y));
         }
-    }
+    };
     exports.Game = Game;
 })(this);

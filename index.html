@@ -2,21 +2,24 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Absorb</title>
 </head>
 <body>
 <canvas id="canvas"></canvas>
+
 <script src="./game.js"></script>
-<script src="./player2.js"></script>
+<script src="./player.js"></script>
 <script src="./input.js"></script>
 <script src="./enemy.js"></script>
 <script type="text/javascript">
 
-    var game = new Game();
-    game.init();
-    setInterval(function() {
-        game.loop();
-    },1000/60);
+    setTimeout(function() {
+        var game = new Game();
+        setInterval(function() {
+            game.loop();
+        },1000/60);
+    },500);
+
 
 </script>
 </body>
