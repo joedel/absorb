@@ -1,14 +1,21 @@
 ;(function(exports) {
 
     function Game(ctx) {
+
         this.ctx = document.getElementById("canvas").getContext("2d");
-        this.width = 700;
-        this.height = 700;
         this.elements = [];
         this.input = new Game.Input();
         this.intro = true;
         this.gameOver = false;
         this.running = false;
+
+        if (typeof window.innerWidth !== 'undefined') {
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+        } else {
+            this.width = 700;
+            this.height = 700;
+        }
     }
 
     Game.prototype = {
@@ -21,9 +28,9 @@
                     for (var i = 0; i<this.elements.length; i++) {
                         this.elements.splice(this.elements.indexOf(this.elements[i]), 1);
                     }
-                    for (var i = 0; i<100; i++) {
-                        var x = this.randomInt(40,700);
-                        var y = this.randomInt(40,700);
+                    for (var j = 0; j<100; j++) {
+                        var x = this.randomInt(0,this.width);
+                        var y = this.randomInt(0,this.height);
                         var radius = this.randomInt(0,50);
                         this.elements.push(new Game.Enemy(this,x,y,radius));
                     }
@@ -31,19 +38,19 @@
                 }
             }
 
-            for (var i =0; i<this.elements.length; i++) {
-                for (var j=1; j<this.elements.length; j++) {
-                    if (this.collision(this.elements[i], this.elements[j])) {
-                        if (this.elements[i] !== this.elements[j]) {
-                            this.elements[j].collision(this.elements[i]);
-                            this.elements[i].collision(this.elements[j]);
+            for (var k=0; k<this.elements.length; k++) {
+                for (var m=1; m<this.elements.length; m++) {
+                    if (this.collision(this.elements[k], this.elements[m])) {
+                        if (this.elements[k] !== this.elements[m]) {
+                            this.elements[m].collision(this.elements[k]);
+                            this.elements[k].collision(this.elements[m]);
                         }
                     }
                 }
             }
 
-            for (var i = 0; i<this.elements.length; i++) {
-                this.elements[i].update();
+            for (var n = 0; n<this.elements.length; n++) {
+                this.elements[n].update();
             }
         },
         draw: function() {
@@ -54,6 +61,9 @@
                 this.ctx.fillStyle = "#FFFFFF";
                 this.ctx.font = "20pt Open Sans";
                 this.ctx.fillText("Space to Start",this.width/2 - 70, this.height/2);
+                this.ctx.font = "12pt Open Sans";
+                this.ctx.fillStyle = "#CCCCCC";
+                this.ctx.fillText("(Arrow Keys To Control)", this.width/2 - 77, this.height/2 + 24);
             }
             if (this.gameOver) {
                 this.ctx.canvas.width = this.width;
@@ -62,6 +72,10 @@
                 this.ctx.fillStyle = "#FFFFFF";
                 this.ctx.font = "20pt Open Sans";
                 this.ctx.fillText("Game Over",this.width/2 - 70, this.height/2);
+                this.ctx.font = "12pt Open Sans";
+                this.ctx.fillStyle = "#CCCCCC";
+                this.ctx.fillText("(Space To Start)", this.width/2 - 60, this.height/2 + 24);
+
             }
             if (this.running && !this.gameOver) {
                 this.ctx.canvas.width = this.width;
