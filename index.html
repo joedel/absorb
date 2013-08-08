@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Absorb</title>
+    <script src="./head.load.min.js"></script>
+    <script type="text/javascript">
+	    head.js("./requestAnimationFrame.js",
+	    		"./game.js",
+	    		"./player.js",
+	    		"./input.js",
+	    		"./enemy.js",
+	    		function() {
+	    			var game = new Game();
+	    			function loop() {
+	    				requestAnimationFrame(loop);
+	    				game.loop();
+	    			}	
+	    			loop();
+		});
+
+    </script>
+
 </head>
 <body>
 <canvas id="canvas"></canvas>
-
-<script src="./game.js"></script>
-<script src="./player.js"></script>
-<script src="./input.js"></script>
-<script src="./enemy.js"></script>
-<script type="text/javascript">
-
-    setTimeout(function() {
-        var game = new Game();
-        setInterval(function() {
-            game.loop();
-        },1000/60);
-    },500);
-
-</script>
 </body>
 </html>

@@ -23,21 +23,7 @@
         update: function() {
             if (this.intro || this.gameOver || this.win) {
                 if (this.input.key.space) {
-                    this.intro = false;
-                    this.gameOver = false;
-                    this.win = false;
-                    this.running = true;
-
-                    for (var i = 0; i<this.elements.length; i++) {
-                        this.elements.splice(this.elements.indexOf(this.elements[i]), 1);
-                    }
-                    for (var j = 0; j<100; j++) {
-                        var x = this.randomInt(0,this.width);
-                        var y = this.randomInt(0,this.height);
-                        var radius = this.randomInt(0,50);
-                        this.elements.push(new Game.Enemy(this,x,y,radius));
-                    }
-                    this.elements.push(new Game.Player(this));
+                    this.startGame();
                 }
             }
 
@@ -85,6 +71,29 @@
             this.ctx.font = "12pt Open Sans";
             this.ctx.fillStyle = "#CCCCCC";
             this.ctx.fillText(text2, this.width/2, this.height/2 + 24);
+        },
+        startGame: function() {
+            this.intro = false;
+            this.gameOver = false;
+            this.win = false;
+            this.running = true;
+
+            this.elements = [];
+            this.createEnemies();
+            this.elements.push(new Game.Player(this));
+        },
+        createEnemies: function(amount) {
+            if (!amount) {
+                var amount = Math.floor(this.width / 10);
+            }
+
+            for (var j = 0; j<amount; j++) {
+                var x = this.randomInt(0,this.width),
+                    y = this.randomInt(0,this.height),
+                    radius = this.randomInt(0,40);
+                
+                this.elements.push(new Game.Enemy(this,x,y,radius));
+            }
         },
         loop: function() {
             this.update();

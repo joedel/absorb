@@ -2,8 +2,8 @@
 
 	function Player(game) {
         this.game = game;
-        this.x = 40;
-        this.y = 40;
+        this.x = this.game.width/2 - 10;
+        this.y = this.game.height/2 - 10;
         this.radius = 20;
         this.maxSpeed = 1;
         this.friction = 0.99;
@@ -14,6 +14,9 @@
 
   Player.prototype = {
     update: function() {
+      if (this.radius > 140) {
+        this.game.win = true;
+      }
       if (this.radius === 0) {
         this.game.gameOver = true;
       }
@@ -34,25 +37,25 @@
       if (this.game.input.key.space) {
       }
       if (this.game.input.key.left) {
-        this.radius -= 0.03;
+        this.radius -= 0.002;
         if (this.vx >= -this.maxSpeed) {
           this.vx -= 0.2;
         }
       }
       if (this.game.input.key.right) {
-        this.radius -= 0.03;
+        this.radius -= 0.002;
         if (this.vx <= this.maxSpeed) {
           this.vx += 0.2;
         }
       }
       if (this.game.input.key.up) {
-        this.radius -= 0.03;
+        this.radius -= 0.002;
         if (this.vy >= -this.maxSpeed) {
           this.vy -= 0.2;
         }
       }
       if (this.game.input.key.down) {
-        this.radius -= 0.03;
+        this.radius -= 0.002;
         if (this.vy <= this.maxSpeed) {
           this.vy += 0.2;
         }
