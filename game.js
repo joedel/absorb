@@ -8,6 +8,7 @@
         this.intro = true;
         this.gameOver = false;
         this.running = false;
+        this.win = false;
 
         if (typeof window.innerWidth !== 'undefined') {
             this.width = window.innerWidth;
@@ -20,11 +21,13 @@
 
     Game.prototype = {
         update: function() {
-            if (this.intro || this.gameOver) {
+            if (this.intro || this.gameOver || this.win) {
                 if (this.input.key.space) {
                     this.intro = false;
                     this.gameOver = false;
+                    this.win = false;
                     this.running = true;
+
                     for (var i = 0; i<this.elements.length; i++) {
                         this.elements.splice(this.elements.indexOf(this.elements[i]), 1);
                     }
@@ -54,38 +57,34 @@
             }
         },
         draw: function() {
+            this.ctx.canvas.width = this.width;
+            this.ctx.canvas.height = this.height;
+            this.ctx.fillRect(0,0,this.width,this.height);
+
             if (this.intro) {
-                this.ctx.canvas.width = this.width;
-                this.ctx.canvas.height = this.height;
-                this.ctx.fillRect(0,0,this.width,this.height);
-                this.ctx.fillStyle = "#FFFFFF";
-                this.ctx.font = "20pt Open Sans";
-                this.ctx.fillText("Space to Start",this.width/2 - 70, this.height/2);
-                this.ctx.font = "12pt Open Sans";
-                this.ctx.fillStyle = "#CCCCCC";
-                this.ctx.fillText("(Arrow Keys To Control)", this.width/2 - 77, this.height/2 + 24);
+                this.drawScreen("Space to Start", "(Arrow Keys to Control");
             }
             if (this.gameOver) {
-                this.ctx.canvas.width = this.width;
-                this.ctx.canvas.height = this.height;
-                this.ctx.fillRect(0,0,this.width,this.height);
-                this.ctx.fillStyle = "#FFFFFF";
-                this.ctx.font = "20pt Open Sans";
-                this.ctx.fillText("Game Over",this.width/2 - 70, this.height/2);
-                this.ctx.font = "12pt Open Sans";
-                this.ctx.fillStyle = "#CCCCCC";
-                this.ctx.fillText("(Space To Start)", this.width/2 - 60, this.height/2 + 24);
-
+                this.drawScreen("Game Over", "(Space to Start)");
             }
-            if (this.running && !this.gameOver) {
-                this.ctx.canvas.width = this.width;
-                this.ctx.canvas.height = this.height;
-                this.ctx.fillRect(0,0,this.width,this.height);
+            if (this.win) {
+                this.drawScreen("You Win!", "(Space to Start");
+            }
 
-                for (var i =0; i<this.elements.length; i++) {
+            if (this.running && !this.gameOver && !this.win) {
+                for (var i=0; i<this.elements.length; i++) {
                     this.elements[i].draw();
                 }
             }
+        },
+        drawScreen: function(text1, text2) {
+            this.ctx.textAlign = "center";
+            this.ctx.fillStyle = "#FFFFFF";
+            this.ctx.font = "20pt Open Sans";
+            this.ctx.fillText(text1,this.width/2, this.height/2);
+            this.ctx.font = "12pt Open Sans";
+            this.ctx.fillStyle = "#CCCCCC";
+            this.ctx.fillText(text2, this.width/2, this.height/2 + 24);
         },
         loop: function() {
             this.update();
