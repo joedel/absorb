@@ -7,7 +7,6 @@
         this.input = new Game.Input();
         this.intro = true;
         this.gameOver = false;
-        this.running = false;
         this.win = false;
 
         if (typeof window.innerWidth !== 'undefined') {
@@ -49,19 +48,22 @@
 
             if (this.intro) {
                 this.drawScreen("Space to Start", "(Arrow Keys to Control");
-            }
-            if (this.gameOver) {
+            } else if (this.gameOver) {
                 this.drawScreen("Game Over", "(Space to Start)");
-            }
-            if (this.win) {
+            } else if (this.win) {
                 this.drawScreen("You Win!", "(Space to Start");
-            }
-
-            if (this.running && !this.gameOver && !this.win) {
+            } else {
                 for (var i=0; i<this.elements.length; i++) {
                     this.elements[i].draw();
                 }
             }
+        },
+        drawCircle: function(circle) {
+            this.ctx.beginPath();
+            this.ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+            this.ctx.fillStyle = circle.fillStyle;
+            this.ctx.fill();
+            this.ctx.closePath();
         },
         drawScreen: function(text1, text2) {
             this.ctx.textAlign = "center";
@@ -76,7 +78,6 @@
             this.intro = false;
             this.gameOver = false;
             this.win = false;
-            this.running = true;
 
             this.elements = [];
             this.createEnemies();

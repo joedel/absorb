@@ -2,7 +2,7 @@
 
     function Enemy(game, x, y, radius) {
         this.game = game;
-        this.fillStyle = "red";
+        this.fillStyle = "#FF0000";
         this.radius = radius;
         this.x = x;
         this.y = y;
@@ -16,11 +16,7 @@
             }
         },
         draw: function() {
-            this.game.ctx.beginPath();
-            this.game.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-            this.game.ctx.fillStyle = this.fillStyle;
-            this.game.ctx.fill();
-            this.game.ctx.closePath();
+            this.game.drawCircle(this);
         },
         collision: function(object) {
             if (object instanceof Enemy) {

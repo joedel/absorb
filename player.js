@@ -34,8 +34,6 @@
           this.y = this.game.height;
       }
 
-      if (this.game.input.key.space) {
-      }
       if (this.game.input.key.left) {
         this.radius -= 0.002;
         if (this.vx >= -this.maxSpeed) {
@@ -67,11 +65,7 @@
 
     },
     draw: function() {
-      this.game.ctx.beginPath();
-      this.game.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-      this.game.ctx.fillStyle = this.fillStyle;
-      this.game.ctx.fill();
-      this.game.ctx.closePath();
+      this.game.drawCircle(this);
     },
     collision: function(object) {
       if (object instanceof Game.Enemy) {
